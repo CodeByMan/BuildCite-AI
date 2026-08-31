@@ -1,0 +1,67 @@
+# Secrets and local environment overrides
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+
+# Coverage, test, and quality reports
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+junit.xml
+test-results/
+
+# Packaging and editable-install output
+*.egg-info/
+.eggs/
+build/
+dist/
+wheelhouse/
+
+# Local runtime data: uploads, extracted text, SQLite, and FAISS indexes
+data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Local generated documents and temporary upload parts
+sample-*.pdf
+*.pdf.part
+*.tmp
+*.temp
+
+# Logs
+*.log
+logs/
+
+# IDE and editor settings
+.idea/
+.vscode/
+*.code-workspace
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local Docker overrides
+docker-compose.override.yml
