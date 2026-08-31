@@ -78,11 +78,9 @@ Users can upload a PDF, monitor background ingestion, retry a failed job, ask do
 
 ## 🖼️ Screenshots
 
-```markdown
-| Streamlit Homepage |
+| Streamlit |
 | --- |
 | ![Homepage](docs/screenshots/streamlit.png) |
-```
 
 ---
 
