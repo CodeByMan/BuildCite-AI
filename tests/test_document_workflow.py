@@ -65,8 +65,8 @@ def build_settings(
         EMBEDDING_MODEL="test-embedding-model",
         LLM_PROVIDER="openai",
         LLM_MODEL="test-llm-model",
-        DEMO_ACCESS_KEY="demo-key-1234567890" if app_mode == "hosted" else "",
-        ADMIN_API_KEY="admin-key-0987654321" if app_mode == "hosted" else "",
+        DEMO_ACCESS_KEY="demo-key-1234567890abcdefgh" if app_mode == "hosted" else "",
+        ADMIN_API_KEY="admin-key-0987654321abcdefgh" if app_mode == "hosted" else "",
     )
 
 
@@ -315,7 +315,7 @@ def test_hosted_access_keys_and_public_health(tmp_path: Path):
         assert (
             client.get(
                 "/v1/documents",
-                headers={"X-Demo-Key": "demo-key-1234567890"},
+                headers={"X-Demo-Key": "demo-key-1234567890abcdefgh"},
             ).status_code
             == 200
         )
@@ -330,7 +330,7 @@ def test_hosted_access_keys_and_public_health(tmp_path: Path):
         assert (
             client.post(
                 "/v1/admin/reset",
-                headers={"X-Admin-Key": "admin-key-0987654321"},
+                headers={"X-Admin-Key": "admin-key-0987654321abcdefgh"},
             ).status_code
             == 200
         )

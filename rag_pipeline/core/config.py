@@ -11,6 +11,22 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from rag_pipeline.core.errors import ConfigError
 
 
+_PLACEHOLDER_SECRET_MARKERS = (
+    "replace_",
+    "your_",
+    "paste_",
+    "example",
+    "changeme",
+    "change-me",
+    "placeholder",
+)
+
+
+def _is_placeholder_secret(value: str) -> bool:
+    normalized = value.strip().lower()
+    return not normalized or any(marker in normalized for marker in _PLACEHOLDER_SECRET_MARKERS)
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_ignore_empty=True, extra="ignore")
 
@@ -86,10 +102,14 @@ class Settings(BaseSettings):
         if self.app_mode == "hosted":
             demo_key = self.demo_access_key.get_secret_value() if self.demo_access_key else ""
             admin_key = self.admin_api_key.get_secret_value() if self.admin_api_key else ""
-            if len(demo_key) < 16:
-                raise ValueError("Hosted mode requires DEMO_ACCESS_KEY with at least 16 characters.")
-            if len(admin_key) < 16:
-                raise ValueError("Hosted mode requires ADMIN_API_KEY with at least 16 characters.")
+            if len(demo_key) < 32 or _is_placeholder_secret(demo_key):
+                raise ValueError(
+                    "Hosted mode requires a non-placeholder DEMO_ACCESS_KEY with at least 32 characters."
+                )
+            if len(admin_key) < 32 or _is_placeholder_secret(admin_key):
+                raise ValueError(
+                    "Hosted mode requires a non-placeholder ADMIN_API_KEY with at least 32 characters."
+                )
             if demo_key == admin_key:
                 raise ValueError("DEMO_ACCESS_KEY and ADMIN_API_KEY must be different.")
         return self
